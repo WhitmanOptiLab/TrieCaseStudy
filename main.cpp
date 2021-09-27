@@ -46,7 +46,7 @@ bool search(struct Node *root, string key)
         int index = key[i] - 'a';
         if (!pCrawl->children[index])
             return false;
- 
+
         pCrawl = pCrawl->children[index];
     }
     return (pCrawl->isEndOfWord);
@@ -82,6 +82,31 @@ void SearchForWords(struct Node* root,string s,int i,bool visited[],string newSt
     //newStr = "" + newStr[newStr.length()-1];
     visited[i] = false;
 }
+/*
+This currently does not work, but I imagine that when it does it will be a lot 
+quicker than the other searchForWrods function.
+*/
+void improvedSearchForWords(struct Node* root,string s,int i,bool visited[],string newStr){
+   struct Node* tt = root;
+   for(int i = 0;i < s.length();i++){
+       if(visited[i] == false){
+           int index = s[i] - 'a';
+           cout << newStr << endl;
+           if(!tt->children[index]){
+               return;
+           }
+           if(tt->isEndOfWord){
+               cout << newStr << endl;
+           }
+           visited[i] = true;
+           newStr += s[i];
+           tt = tt->children[index];
+           improvedSearchForWords(tt,s,i,visited,newStr);
+           visited[i] = false;
+           newStr = newStr.substr(0,newStr.length()-1);
+       }
+   }
+}
 
 int main(){
     //reading file and pushing content to vector Dict
@@ -96,7 +121,6 @@ int main(){
     }
     
     //creating tree structure
-
     int Dict_size = Dict.size();
     struct Node *root = getNode();
     for(int i = 0;i < Dict_size;i++){
@@ -105,14 +129,14 @@ int main(){
 
 
     //creating a random string of x length
-    int StringLength = 12;
+    int StringLength = 9;
     string testWord = genSequence(StringLength);
 
     //Searching for all substrings Function
     for(int i = 0;i < testWord.length();i++){
         bool visited[testWord.length()];
-        //SearchForWords(root,testWord[i],i);
         string newStr = "";
-        SearchForWords(root,testWord,i,visited,newStr);
+        //SearchForWords(root,testWord,i,visited,newStr);
+        improvedSearchForWords(root,testWord,i,visited,newStr);
     }
 }
