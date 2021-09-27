@@ -66,6 +66,7 @@ string genSequence(int length){
     cout << ret << endl;
     return ret;
 }
+//This seems quite slow, why not just make a hash table if we are doing it this way?
 void SearchForWords(struct Node* root,string s,int i,bool visited[],string newStr){
     visited[i] = true;
     newStr += s[i];
@@ -114,9 +115,4 @@ int main(){
         string newStr = "";
         SearchForWords(root,testWord,i,visited,newStr);
     }
-    //SearchForWords(root);
-
-
-    //Recursion Functions
-    //startSearch(testWord);
 }
