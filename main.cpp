@@ -86,26 +86,56 @@ void SearchForWords(struct Node* root,string s,int i,bool visited[],string newSt
 This currently does not work, but I imagine that when it does it will be a lot 
 quicker than the other searchForWrods function.
 */
-void improvedSearchForWords(struct Node* root,string s,int i,bool visited[],string newStr){
-   struct Node* tt = root;
-   for(int i = 0;i < s.length();i++){
+//Further Research Needed: https://en.wikipedia.org/wiki/Aho–Corasick_algorithm
+void improvedSearchForWords(struct Node* root,string s,int id,bool visited[],string newStr){
+    struct Node* tt = root;
+    //newStr += s[id];
+    //visited[id] = true;
+    //newStr += s[id];
+    for(int i = 0;i < s.length();i++){
        if(visited[i] == false){
            int index = s[i] - 'a';
-           cout << newStr << endl;
+           newStr += s[i];
+           visited[i] = true;
+           //cout << newStr << endl;
+           //break;
            if(!tt->children[index]){
                return;
            }
            if(tt->isEndOfWord){
                cout << newStr << endl;
            }
-           visited[i] = true;
-           newStr += s[i];
-           tt = tt->children[index];
-           improvedSearchForWords(tt,s,i,visited,newStr);
-           visited[i] = false;
-           newStr = newStr.substr(0,newStr.length()-1);
+           //tt = tt->children[index];
+            improvedSearchForWords(tt->children[index],s,i,visited,newStr);
+            visited[i] = false;
+            newStr = newStr.substr(0,newStr.length()-1);
        }
-   }
+    }
+    //visited[id] = false;
+    //newStr = newStr.substr(0,newStr.length()-1);
+}
+//This seems like the code that works the best, currently not getting everything though???
+//Only getting a few letters for some reason
+void subsetSearch(struct Node* root,string s,bool visited[],string newStr){
+    struct Node* tt = root;
+    //If its the end of a word, then add it to the collection of valid words
+    if(tt->isEndOfWord){
+        cout << newStr << endl;
+    }
+    for(int i = 0;i < s.length();i++){
+        if(visited[i] == false){
+            int index = s[i] - 'a';
+            if(!tt->children[index]){
+                continue;
+            }
+            newStr += s[i];
+            //cout << newStr << endl;
+            visited[i] = true;
+            subsetSearch(tt->children[index],s,visited,newStr);
+            visited[i] = false;
+            newStr = newStr.substr(0,newStr.length()-1);
+        }
+    }
 }
 
 int main(){
@@ -129,14 +159,20 @@ int main(){
 
 
     //creating a random string of x length
-    int StringLength = 9;
-    string testWord = genSequence(StringLength);
-
+    //int StringLength = 9;
+    //string testWord = genSequence(StringLength);
+    string testWord = "mkehsplpe";
     //Searching for all substrings Function
+    //SearchForWords
+
     for(int i = 0;i < testWord.length();i++){
         bool visited[testWord.length()];
         string newStr = "";
-        //SearchForWords(root,testWord,i,visited,newStr);
-        improvedSearchForWords(root,testWord,i,visited,newStr);
+        newStr += testWord[i];
+        int index = testWord[i] - 'a';
+        Node* temp = root->children[index];
+        visited[i] = true;
+        subsetSearch(temp,testWord,visited,newStr);
+        //visited[i] = false;
     }
 }
