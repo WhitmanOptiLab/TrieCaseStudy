@@ -8,7 +8,6 @@
 
 
 using namespace std;
-using namespace std::chrono;
 
 const int ALPHABET_SIZE = 26;
 
@@ -46,13 +45,11 @@ bool search(struct Node *root, string key)
         int index = key[i] - 'a';
         if (!pCrawl->children[index])
             return false;
-
         pCrawl = pCrawl->children[index];
     }
     return (pCrawl->isEndOfWord);
 }
 //End of GeeksForGeeks Implementation
-
 
 //randomly creating string of a specific length
 string genSequence(int length){
@@ -84,7 +81,7 @@ void SearchForWords(struct Node* root,string s,int i,bool visited[],string newSt
 }
 
 //Further Research Needed: https://en.wikipedia.org/wiki/Aho–Corasick_algorithm
-//This function works, recursively goes through the trie
+//This function works, recursively goes throught the trie
 void subsetSearch(struct Node* root,string s,bool visited[],string newStr){
     struct Node* tt = root;
     //If its the end of a word, then add it to the collection of valid words
@@ -92,7 +89,7 @@ void subsetSearch(struct Node* root,string s,bool visited[],string newStr){
         cout << newStr << endl;
     }
     for(int i = 0;i < s.length();i++){
-        //go through all of the remaining chars, if they haven't been visited than add
+        //go through all of the remaining chars, if they haven't been visited then add
         //them to the string
         if(visited[i] == false){
             int index = s[i] - 'a';
@@ -129,8 +126,10 @@ int main(){
 
 
     //creating a random string of x length
-    int StringLength = 13;
+    int StringLength = 30;
     string testWord = genSequence(StringLength);
+
+    auto t1 = std::chrono::high_resolution_clock::now();
     //Searching for all substrings Function
     for(int i = 0;i < testWord.length();i++){
         bool visited[testWord.length()];
@@ -141,4 +140,6 @@ int main(){
         visited[i] = true;
         subsetSearch(temp,testWord,visited,newStr);
     }
+    auto t2 = std::chrono::high_resolution_clock::now();
+    cout << "MilliSeconds: " << std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count() << endl;
 }
