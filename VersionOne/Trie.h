@@ -16,6 +16,7 @@ class Trie{
         Trie();
         void insert(string key);
         bool search(string key);
+        Node* getRoot();
     private:
         Node* root;
         Node* getNode();
