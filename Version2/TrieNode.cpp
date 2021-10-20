@@ -26,6 +26,9 @@ bool Trie::search(string key){
     }
     return (pCrawl->isEndOfWord);
 }
+Node* Trie::getRoot(){
+    return root;
+}
 Node* Trie::getNode(){
     Node* temp = new Node();
     return temp;
