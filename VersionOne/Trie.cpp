@@ -31,3 +31,6 @@ Node* Trie::getNode(){
     Node* temp = new Node();
     return temp;
 }
+Node* Trie::getRoot(){
+    return root;
+}
