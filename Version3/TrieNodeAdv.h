@@ -50,6 +50,9 @@ class Trie{
             }
             return (pCrawl->isEndOfWord);
         }
+        Node* getRoot(){
+            return root;
+        }
     private:
         Node* root;
         Node* getNode(){
