@@ -13,17 +13,21 @@ using namespace std;
 
 class Node{
     public:
-        bool EndOfWord();
         Node(){
-            isEndOfWord = false;
+            EndOfWord = false;
             for(int i = 0;i < 26;i++){
                 children[i] = NULL;
             }
         }
         Node *children[26];//Alphabet size could be smaller/bigger than 26 characters
-        bool isEndOfWord;
+        void setEndOfWord(){
+            EndOfWord = true;
+        }
+        bool isEndOfWord(){
+            return EndOfWord;
+        }
     private:
-        
+        bool EndOfWord;
 };
 class Trie{
     public:
@@ -38,7 +42,7 @@ class Trie{
                     pCrawl->children[index] = new Node();
                 pCrawl = pCrawl->children[index];
             }
-            pCrawl->isEndOfWord = true;
+            pCrawl->setEndOfWord();
         }
         bool search(string key){
             Node* pCrawl = root;
@@ -48,7 +52,7 @@ class Trie{
                     return false;
                 pCrawl = pCrawl->children[index];
             }
-            return (pCrawl->isEndOfWord);
+            return (pCrawl->isEndOfWord());
         }
         Node* getRoot(){
             return root;
