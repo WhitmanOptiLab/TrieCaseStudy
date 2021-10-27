@@ -11,6 +11,7 @@
 
 using namespace std;
 
+
 vector<string> Dict;
 
 int main(){
@@ -30,5 +31,15 @@ int main(){
     for(int i = 0;i < Dict_size;i++){
         t->insert(Dict[i]);
     }
-    t->subsetSearch("hellothere");
+
+    
+    auto t1 = std::chrono::high_resolution_clock::now();
+    string testSeq = "testwordao";
+
+    t->subsetSearch(testSeq);
+    
+
+    auto t2 = std::chrono::high_resolution_clock::now();
+    cout << "MicroSeconds: " << std::chrono::duration_cast<std::chrono::microseconds>(t2-t1).count() << endl;
+    
 }
