@@ -13,12 +13,12 @@ using namespace std;
 
 class Node{
     public:
-        bool EndOfWord();
         Node();
         Node *children[26];//Alphabet size could be smaller/bigger than 26 characters
-        bool isEndOfWord;
+        bool isEndOfWord();
+        void setEndOfWord();
     private:
-        
+        bool EndOfWord;
 };
 class Trie{
     public:
@@ -26,6 +26,7 @@ class Trie{
         void insert(string key);
         bool search(string key);
         void subsetSearch(string key);
+        //we needa get root function here for subset search
     private:
         Node* root;
         Node* getNode();
