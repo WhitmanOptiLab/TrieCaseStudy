@@ -14,7 +14,7 @@ void Trie::insert(string key){
             pCrawl->children[index] = new Node();
         pCrawl = pCrawl->children[index];
     }
-    pCrawl->isEndOfWord = true;
+    pCrawl->setEndOfWord();
 }
 bool Trie::search(string key){
     Node* pCrawl = root;
@@ -24,7 +24,7 @@ bool Trie::search(string key){
             return false;
         pCrawl = pCrawl->children[index];
     }
-    return (pCrawl->isEndOfWord);
+    return (pCrawl->isEndOfWord());
 }
 Node* Trie::getRoot(){
     return root;
@@ -34,8 +34,14 @@ Node* Trie::getNode(){
     return temp;
 }
 Node::Node(){
-    isEndOfWord = false;
+    EndOfWord = false;
     for(int i = 0;i < 26;i++){
         children[i] = NULL;
     }
+}
+bool Node::isEndOfWord(){
+    return EndOfWord;
+}
+void Node::setEndOfWord(){
+    EndOfWord = true;
 }
