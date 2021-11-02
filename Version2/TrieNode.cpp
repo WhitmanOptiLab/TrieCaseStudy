@@ -1,37 +1,53 @@
-#ifndef TRIE_H
-#define TRIE_H
-//#define MAX_CHAR 100
-//typedef char String[MAX_CHAR+1];
-#include <iostream>
-#include <fstream> 
-#include <vector>
-#include <ctime>
-#include <unistd.h>
-#include <chrono>
 
-using namespace std; 
+#include "TrieNode.h"
 
-class Node{
-    public:
-        Node();
-        bool isEndOfWord();
-        void setEndOfWord();
-        Node* getChild(int index);
-        void setChild(int index);
-    private:
-        Node *children[26];//Alphabet size could be smaller/bigger than 26 characters
-        bool EndOfWord;
-};
-class Trie{
-    public:
-        Trie();
-        void insert(string key);
-        bool search(string key);
-        Node* getRoot();
-    private:
-        Node* root;
-        Node* getNode();
-};
+Trie::Trie(){
+    //Set the root node as a new node
+    root = getNode();
+}
 
-
-#endif
+void Trie::insert(string key){
+    Node *pCrawl = root;
+    for(int i = 0;i < key.length();i++){
+        int index = key[i] - 'a';
+        if(!pCrawl->getChild(index))
+            pCrawl->setChild(index);
+        pCrawl = pCrawl->getChild(index);
+    }
+    pCrawl->setEndOfWord();
+}
+bool Trie::search(string key){
+    Node* pCrawl = root;
+    for(int i = 0;i < key.length();i++){
+        int index = key[i] - 'a';
+        if(!pCrawl->getChild(index))
+            return false;
+        pCrawl = pCrawl->getChild(index);
+    }
+    return (pCrawl->isEndOfWord());
+}
+Node* Trie::getRoot(){
+    return root;
+}
+Node* Trie::getNode(){
+    Node* temp = new Node();
+    return temp;
+}
+Node::Node(){
+    EndOfWord = false;
+    for(int i = 0;i < 26;i++){
+        children[i] = NULL;
+    }
+}
+bool Node::isEndOfWord(){
+    return EndOfWord;
+}
+void Node::setEndOfWord(){
+    EndOfWord = true;
+}
+Node* Node::getChild(int index){
+    return children[index];
+}
+void Node::setChild(int index){
+    children[index] = new Node();
+}
