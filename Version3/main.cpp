@@ -71,7 +71,7 @@ int main(){
     auto t2 = std::chrono::high_resolution_clock::now();
     cout << "MicroSeconds: " << std::chrono::duration_cast<std::chrono::microseconds>(t2-t1).count() << endl;
     
-
+    cout << "bobobob" << endl;
     //run this for the tire node subset class
    /* 
     auto t1 = std::chrono::high_resolution_clock::now();
