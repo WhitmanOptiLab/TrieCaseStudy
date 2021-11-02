@@ -4,8 +4,8 @@
 #include <ctime>
 #include <unistd.h>
 #include <chrono>
-#include "Trie.h"
-//#include "TrieNode.h"
+//#include "Trie.h"
+#include "TrieNode.h"
 //#include "TrieNodeAdv.h"
 //#include "TrieNodeSubset.h"
 
