@@ -1,39 +1,86 @@
-#ifndef TRIE_H
-#define TRIE_H
-//#define MAX_CHAR 100
-//typedef char String[MAX_CHAR+1];
-#include <iostream>
-#include <fstream> 
-#include <vector>
-#include <ctime>
-#include <unistd.h>
-#include <chrono>
 
-using namespace std; 
+#include "TrieNodeSubset.h"
 
-class Node{
-    public:
-        Node();
-        bool isEndOfWord();
-        void setEndOfWord();
-        Node* getChild(int index);
-        void setChild(int index);
-    private:
-        Node *children[26];//Alphabet size could be smaller/bigger than 26 characters
-        bool EndOfWord;
-};
-class Trie{
-    public:
-        Trie();
-        void insert(string key);
-        bool search(string key);
-        void subsetSearch(string key);
-        //we needa get root function here for subset search
-    private:
-        Node* root;
-        Node* getNode();
-        void private_subsetSearch(Node* root,string s,bool visited[],string newStr);
-};
+Trie::Trie(){
+    //Set the root node as a new node
+    root = getNode();
+}
+
+void Trie::insert(string key){
+    Node *pCrawl = root;
+    for(int i = 0;i < key.length();i++){
+        int index = key[i] - 'a';
+        if(!pCrawl->getChild(index))
+            pCrawl->setChild(index);
+        pCrawl = pCrawl->getChild(index);
+    }
+    pCrawl->setEndOfWord();
+}
+
+void Trie::subsetSearch(string key){
+    for(int i = 0;i < key.length();i++){
+        bool visited[key.length()];
+        string newStr = "";
+        newStr += key[i];
+        int index = key[i] - 'a';
+        Node* temp = root->getChild(index);
+        visited[i] = true;
+        private_subsetSearch(temp,key,visited,newStr);
+    }
+}
+void Trie::private_subsetSearch(Node* root,string s,bool visited[],string newStr){
+    Node* tt = root;
+    if(tt->isEndOfWord()){
+        cout << newStr << endl;
+    }
+    for(int i = 0;i < s.length();i++){
+        //go through all of the remaining chars, if they haven't been visited then add
+        //them to the string
+        if(visited[i] == false){
+            int index = s[i] - 'a';
+            if(!tt->getChild(index)){
+                continue;
+            }
+            newStr += s[i];
+            visited[i] = true;
+            //Node* xx = tt->getChild(index);
+            private_subsetSearch(tt->getChild(index),s,visited,newStr);
+            visited[i] = false;
+            newStr = newStr.substr(0,newStr.length()-1);
+        }
+    }
+}
 
 
-#endif
+bool Trie::search(string key){
+    Node* pCrawl = root;
+    for(int i = 0;i < key.length();i++){
+        int index = key[i] - 'a';
+        if(!pCrawl->getChild(index))
+            return false;
+        pCrawl = pCrawl->getChild(index);
+    }
+    return (pCrawl->isEndOfWord());
+}
+Node* Trie::getNode(){
+    Node* temp = new Node();
+    return temp;
+}
+Node::Node(){
+    EndOfWord = false;
+    for(int i = 0;i < 26;i++){
+        children[i] = NULL;
+    }
+}
+bool Node::isEndOfWord(){
+    return EndOfWord;
+}
+void Node::setEndOfWord(){
+    EndOfWord = true;
+}
+Node* Node::getChild(int index){
+    return children[index];
+}
+void Node::setChild(int index){
+    children[index] = new Node();
+}
