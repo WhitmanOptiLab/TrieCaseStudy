@@ -7,7 +7,7 @@
 #include <vector>
 #include <ctime>
 #include <unistd.h>
-#include <chrono>
+
 
 using namespace std; 
 
@@ -19,14 +19,20 @@ class Node{
                 children[i] = NULL;
             }
         }
-        Node *children[26];//Alphabet size could be smaller/bigger than 26 characters
         void setEndOfWord(){
             EndOfWord = true;
         }
         bool isEndOfWord(){
             return EndOfWord;
         }
+        Node* getChild(int index){
+            return children[index];
+        }
+        void setChild(int index){
+            children[index] = new Node();
+        }
     private:
+        Node *children[26];//Alphabet size could be smaller/bigger than 26 characters
         bool EndOfWord;
 };
 class Trie{
@@ -38,9 +44,9 @@ class Trie{
             Node *pCrawl = root;
             for(int i = 0;i < key.length();i++){
                 int index = key[i] - 'a';
-                if(!pCrawl->children[index])
-                    pCrawl->children[index] = new Node();
-                pCrawl = pCrawl->children[index];
+                if(!pCrawl->getChild(index))
+                    pCrawl->setChild(index);
+                pCrawl = pCrawl->getChild(index);
             }
             pCrawl->setEndOfWord();
         }
@@ -48,9 +54,9 @@ class Trie{
             Node* pCrawl = root;
             for(int i = 0;i < key.length();i++){
                 int index = key[i] - 'a';
-                if(!pCrawl->children[index])
+                if(!pCrawl->getChild(index))
                     return false;
-                pCrawl = pCrawl->children[index];
+                pCrawl = pCrawl->getChild(index);
             }
             return (pCrawl->isEndOfWord());
         }
