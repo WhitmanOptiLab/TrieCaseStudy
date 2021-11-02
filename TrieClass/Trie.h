@@ -14,10 +14,12 @@
 class Trie{
     public:
         Trie();
+        void insert(string key);
+        bool search(string key);
+        Node* getRoot();
+    private:
         Node* root;
         Node* getNode();
-        void insert(Node* root,string key);
-        bool search(Node* root,string key);
 };
 
 #endif
