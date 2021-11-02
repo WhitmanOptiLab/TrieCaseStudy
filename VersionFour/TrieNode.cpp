@@ -10,9 +10,9 @@ void Trie::insert(string key){
     Node *pCrawl = root;
     for(int i = 0;i < key.length();i++){
         int index = key[i] - 'a';
-        if(!pCrawl->children[index])
-            pCrawl->children[index] = new Node();
-        pCrawl = pCrawl->children[index];
+        if(!pCrawl->getChild(index))
+            pCrawl->setChild(index);
+        pCrawl = pCrawl->getChild(index);
     }
     pCrawl->setEndOfWord();
 }
@@ -23,7 +23,7 @@ void Trie::subsetSearch(string key){
         string newStr = "";
         newStr += key[i];
         int index = key[i] - 'a';
-        Node* temp = root->children[index];
+        Node* temp = root->getChild(index);
         visited[i] = true;
         private_subsetSearch(temp,key,visited,newStr);
     }
@@ -38,12 +38,12 @@ void Trie::private_subsetSearch(Node* root,string s,bool visited[],string newStr
         //them to the string
         if(visited[i] == false){
             int index = s[i] - 'a';
-            if(!tt->children[index]){
+            if(!tt->getChild(index)){
                 continue;
             }
             newStr += s[i];
             visited[i] = true;
-            private_subsetSearch(tt->children[index],s,visited,newStr);
+            private_subsetSearch(tt->getChild(index),s,visited,newStr);
             visited[i] = false;
             newStr = newStr.substr(0,newStr.length()-1);
         }
@@ -55,9 +55,9 @@ bool Trie::search(string key){
     Node* pCrawl = root;
     for(int i = 0;i < key.length();i++){
         int index = key[i] - 'a';
-        if(!pCrawl->children[index])
+        if(!pCrawl->getChild(index))
             return false;
-        pCrawl = pCrawl->children[index];
+        pCrawl = pCrawl->getChild(index);
     }
     return (pCrawl->isEndOfWord());
 }
@@ -76,4 +76,10 @@ bool Node::isEndOfWord(){
 }
 void Node::setEndOfWord(){
     EndOfWord = true;
+}
+Node* Node::getChild(int index){
+    return children[index];
+}
+void Node::setChild(int index){
+    children[index] = new Node();
 }
