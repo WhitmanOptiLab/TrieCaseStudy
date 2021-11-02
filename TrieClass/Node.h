@@ -7,11 +7,16 @@ using namespace std;
 
 class Node{
     public:
-        bool EndOfWord();
+       
         Node();
-        Node *children[26];//Alphabet size could be smaller/bigger than 26 characters
-        bool isEndOfWord;
+        //Node *children[26];
+        bool isEndOfWord();
+        void setEndOfWord();
+        Node* getChild(int index);
+        void setChild(int index);
     private:
+        Node *children[26];//Alphabet size could be smaller/bigger than 26 characters
+        bool EndOfWord;
 };
 
 
