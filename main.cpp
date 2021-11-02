@@ -81,7 +81,8 @@ void subsetSearch(struct Node* root,string s,bool visited[],string newStr){
             }
             newStr += s[i];
             visited[i] = true;
-            subsetSearch(tt->children[index],s,visited,newStr);
+            Node* xx = tt->children[index];
+            subsetSearch(xx,s,visited,newStr);
             visited[i] = false;
             newStr = newStr.substr(0,newStr.length()-1);
         }
@@ -110,8 +111,8 @@ int main(){
 
     //creating a random string of x length
     int StringLength = 30;
-    string testWord = genSequence(StringLength);
-
+    //string testWord = genSequence(StringLength);
+    string testWord = "oifpyrki";
     auto t1 = std::chrono::high_resolution_clock::now();
     //Searching for all substrings Function
     for(int i = 0;i < testWord.length();i++){
@@ -124,5 +125,7 @@ int main(){
         subsetSearch(temp,testWord,visited,newStr);
     }
     auto t2 = std::chrono::high_resolution_clock::now();
-    cout << "MilliSeconds: " << std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count() << endl;
+    cout << "Microseconds: " << std::chrono::duration_cast<std::chrono::microseconds>(t2-t1).count() << endl;
+
+    cout << "ppopp" << endl;
 }
