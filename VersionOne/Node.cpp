@@ -14,4 +14,9 @@ bool Node::isEndOfWord(){
 void Node::setEndOfWord(){
     EndOfWord = true;
 }
-
+Node* Node::getChild(int index){
+    return children[index];
+}
+void Node::setChild(int index){
+    children[index] = new Node();
+}
