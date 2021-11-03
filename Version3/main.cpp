@@ -11,14 +11,14 @@
 
 using namespace std;
 
-
+int COUNT = 0;
 vector<string> Dict;
 
 void subSetSearch(Trie* t, bool visited[],int i,string str,string seq){
+    
     visited[i] = true;
     str += seq[i];
-    //If its in the hashtable print it out
-    if(t->search(str) && str.length() > 3){
+    if(t->search(str)){
         cout << str << endl;
     }
     for(int id = 0;id < seq.length();id++){
@@ -49,35 +49,35 @@ int main(){
         t->insert(Dict[i]);
     }
 
-    
+ 
     auto t1 = std::chrono::high_resolution_clock::now();
-    string testSeq = "testwordao";
-
-    //t->subsetSearch(testSeq);
     
+    string testSeq = "aynvkpuueq";
+
     for(int i = 0;i < testSeq.length();i++){
         bool visited[testSeq.length()];
+        for(int x = 0;x < (sizeof(visited)/sizeof(bool));x++){
+            visited[x] = false;
+        }
         string newStr = "";
-        //newStr += testWord[i];
-        //int index = testWord[i] - 'a';
-        //visited[i] = true;
         subSetSearch(t,visited,i,newStr,testSeq);
     }
-    
-   
-    
+
+      //run this for the tire node subset class
+
     
 
     auto t2 = std::chrono::high_resolution_clock::now();
     cout << "MicroSeconds: " << std::chrono::duration_cast<std::chrono::microseconds>(t2-t1).count() << endl;
     
     cout << "bobobob" << endl;
-    //run this for the tire node subset class
-   /* 
+
+   /*
     auto t1 = std::chrono::high_resolution_clock::now();
-    t->subsetSearch("todaywasanexcellentday");
+    t->subsetSearch("prohceuybwhn");
     auto t2 = std::chrono::high_resolution_clock::now();
-    cout << "MilliSeconds: " << std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count() << endl;
+    cout << "MicroSeconds: " << std::chrono::duration_cast<std::chrono::microseconds>(t2-t1).count() << endl;
     */
+    
     
 }
