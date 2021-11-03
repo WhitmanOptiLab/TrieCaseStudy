@@ -11,21 +11,21 @@ void Trie::insert(string key){
     Node *pCrawl = root;
     for(int i = 0;i < key.length();i++){
         int index = key[i] - 'a';
-        if(!pCrawl->children[index])
-            pCrawl->children[index] = new Node();
-        pCrawl = pCrawl->children[index];
+        if(!pCrawl->getChild(index))
+            pCrawl->setChild(index);
+        pCrawl = pCrawl->getChild(index);
     }
-    pCrawl->isEndOfWord = true;
+    pCrawl->setEndOfWord();
 }
 bool Trie::search(string key){
     Node* pCrawl = root;
     for(int i = 0;i < key.length();i++){
         int index = key[i] - 'a';
-        if(!pCrawl->children[index])
+        if(!pCrawl->getChild(index))
             return false;
-        pCrawl = pCrawl->children[index];
+        pCrawl = pCrawl->getChild(index);
     }
-    return (pCrawl->isEndOfWord);
+    return (pCrawl->isEndOfWord());
 }
 Node* Trie::getNode(){
     Node* temp = new Node();
