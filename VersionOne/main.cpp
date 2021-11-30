@@ -1,12 +1,12 @@
 #include <iostream>
-#include <fstream> 
+#include <fstream>
 #include <vector>
 #include <ctime>
 #include <unistd.h>
 #include <chrono>
-#include "Trie.h"
-//#include "TrieNode.h"
-//#include "TrieNodeAdv.h"
+//#include "Trie.h"
+#include "Node.hpp"
+#include "Trie.hpp"
 //#include "TrieNodeSubset.h"
 
 using namespace std;
@@ -14,10 +14,11 @@ using namespace std;
 int COUNT = 0;
 vector<string> Dict;
 
-void subSetSearch(Trie* t, bool visited[],int i,string str,string seq){
+void subSetSearch(Trie* t, bool visited[],int i,string& str,const string& seq){
     
     visited[i] = true;
-    str += seq[i];
+    str.push_back(seq[i]);
+    //str += seq[i];
     if(t->search(str)){
         cout << str << endl;
     }
@@ -27,7 +28,8 @@ void subSetSearch(Trie* t, bool visited[],int i,string str,string seq){
         }
     }
     visited[i] = false;
-    str = str.substr(0,str.length()-1);
+    str.pop_back();
+    //str = str.substr(0,str.length()-1);
 }
 
 
@@ -49,10 +51,10 @@ int main(){
         t->insert(Dict[i]);
     }
 
- 
+    
     auto t1 = std::chrono::high_resolution_clock::now();
     
-    string testSeq = "prohceuybwhn";
+    string testSeq = "aynvkpuueq";
 
     for(int i = 0;i < testSeq.length();i++){
         bool visited[testSeq.length()];
@@ -60,11 +62,22 @@ int main(){
             visited[x] = false;
         }
         string newStr = "";
+        newStr.reserve(testSeq.length());
         subSetSearch(t,visited,i,newStr,testSeq);
     }
-
+    
     auto t2 = std::chrono::high_resolution_clock::now();
     cout << "MicroSeconds: " << std::chrono::duration_cast<std::chrono::microseconds>(t2-t1).count() << endl;
     
-    //cout << "bobobob" << endl;
+    cout << "bdd" << endl;
+    
+    //run this for the tire node subset class
+   /*
+    auto t1 = std::chrono::high_resolution_clock::now();
+    t->subsetSearch("prohceuybwhn");
+    auto t2 = std::chrono::high_resolution_clock::now();
+    cout << "MicroSeconds: " << std::chrono::duration_cast<std::chrono::microseconds>(t2-t1).count() << endl;
+    */
+    
+    
 }
