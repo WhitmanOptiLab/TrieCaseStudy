@@ -5,8 +5,8 @@
 #include <unistd.h>
 #include <chrono>
 //#include "Trie.h"
-#include "Node.hpp"
-#include "Trie.hpp"
+#include "Node.h"
+#include "Trie.h"
 //#include "TrieNodeSubset.h"
 
 using namespace std;
